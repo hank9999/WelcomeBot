@@ -152,7 +152,7 @@ async def greet(_: Bot, e: Event):
     pic_text = await replace_text(pic_text, user_id, user['username'], guild['name'], time_text)
     pic_path = await generate_welcome_pic(pic_text, user['avatar'], guild_id)
     pic_url = (await bot.client.gate.request('POST', 'asset/create', data={'file': open(pic_path, 'rb')}))['url']
-    ch = await bot.fetch_public_channel(channel_id)
+    ch = await bot.client.fetch_public_channel(channel_id)
     await ch.send(text)
     await ch.send(pic_url, type=MessageTypes.IMG)
     os.remove(pic_path)
