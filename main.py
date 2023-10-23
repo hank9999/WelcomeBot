@@ -110,20 +110,20 @@ async def generate_welcome_pic(pic_text: str, avatar_url: str, guild_id: str):
     find_n = pic_text.find('\n')
     if find_n >= 0:
         text_used_for_get_width = pic_text[:find_n]
-        text_init_width = font.getsize(text_used_for_get_width)
+        text_init_width = font.getbbox(text_used_for_get_width)[2:]
         # 计算字体位置
         is_first = True
         text_coordinate = int((bg_size[0] - text_init_width[0]) / 2), int(bg_size[1] * 0.73)
         for i in pic_text.split('\n'):
             if not is_first:
-                text_width = font.getsize(i)
+                text_width = font.getbbox(i)[2:]
                 text_coordinate = int((bg_size[0] - text_width[0]) / 2), text_coordinate[1] + text_init_width[1] + 10
             else:
                 is_first = False
             draw.text(text_coordinate, i, font=font)
 
     else:
-        text_width = font.getsize(pic_text)
+        text_width = font.getbbox(pic_text)[2:]
         # 计算字体位置
         text_coordinate = int((bg_size[0] - text_width[0]) / 2), int(bg_size[1] * 0.73)
         draw.text(text_coordinate, pic_text, font=font)
